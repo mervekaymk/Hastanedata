@@ -43,7 +43,7 @@ try:
     print("\nHastane DataFrame: \n", df)
 
     dr_uzmanlik = df[df["Uzmanlık"].notna()].groupby("Uzmanlık").size()
-    # doktorları uzmanlık alanlarına göre gruplama
+    # doktorları uzmanlık alanlarına göre gruplama ve sayılarını bulma
     print("\nUzmanlık Alanlarına Göre Doktor Sayıları:\n", dr_uzmanlik)
 
     deneyimli_dr = df[(df["Deneyim Yılı"] > 5)].shape[0]
@@ -55,12 +55,14 @@ try:
     print("\nAlfabetik Olarak Sıralanmış Hasta Bilgileri:\n", hasta_siralanmis)
 
     maasi_7000_ustunde = df[df["Maaş"] > 7000]
+    #Datada maaşı 7000'in üzerindeki personelleri seçer
     print("\nMaaşı 7000'in Üzerindeki Personeller:\n", maasi_7000_ustunde)
 
-    dt_1990_dansonra = df[pd.to_datetime(df["Doğum Tarihi"]).dt.year >= 1990]
+    dt_1990_dansonra = df[pd.to_datetime(df["Doğum Tarihi"], errors='coerce') >= '1990-01-01']
+    # DataFrame'de doğum tarihi 1990 yılından sonra olanları seçer
     print("\n1990 Sonrası Doğan Hastalar:\n", dt_1990_dansonra)
 
-    new_dataf = df[["Ad", "Soyad", "Departman", "Maaş", "Uzmanlık", "Deneyim Yılı", "Sertifika", "Hastalık", "Tedavi", "Doğum Tarihi"]]
+    new_dataf = df[["Ad", "Soyad", "Departman", "Maaş", "Uzmanlık", "Deneyim Yılı", "Hastalık", "Tedavi"]]
     print("\nYeni DataFrame:\n", new_dataf)
 
 except Exception as e:

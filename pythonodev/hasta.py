@@ -59,10 +59,17 @@ class Hasta:
     def set_hemsire(self, hemsire):
         self.__hemsire = hemsire
 
-    def tedavi_sure_hesap(self):
-        pass
+    def tedavi_sure_hesap(self): #hastalığa göre tedavi süresi 
+        if self.__tedavi== "İlac Tedavisi":
+            return "3 gün"
+        elif self.__tedavi== "Fizik Tedavi":
+            return "2 ay"
+        elif self.__tedavi== "Kemoterapi":
+            return "12 ay"
+        else:
+            return "Tedavi süresi bilinmiyor!"
     
     def __str__(self):
-        return f"Hasta No: {self.__hasta_no}, Ad: {self.__ad}, Soyad: {self.__soyad}, Dogum Tarihi: {self.__dogum_tarihi}, Hastalik: {self.__hastalik}, Tedavi: {self.__tedavi}, Doktoru= {self.__doktor}, Hemsiresi= {self.__hemsiresi}"
+        return f"Hasta No: {self.__hasta_no}, Ad: {self.__ad}, Soyad: {self.__soyad}, Dogum Tarihi: {self.__dogum_tarihi}, Hastalik: {self.__hastalik}, Tedavi: {self.__tedavi}, Doktoru= {self.__doktor}, Hemsiresi= {self.__hemsire}"
     
     

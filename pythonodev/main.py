@@ -1,5 +1,4 @@
 import pandas as pd
-
 from personel import Personel 
 from doktor import Doktor 
 from hemsire import Hemsire 
@@ -9,8 +8,6 @@ try:
 
     personel1 = Personel(1, "Veli", "Kaya", "İstatistik", 2000)
     personel2 = Personel(2, "Sükrü", "Varol", "İnsan Kaynakları", 1800)
-    print(personel1)
-    print(personel2)
 
     doktor1 = Doktor(3, "Mehmet", "Koksal", "Noroloji", 9000, "Norolog", 7, "Can")
     doktor2 = Doktor(4, "Leyla", "Ozdemir", "Kardiyoloji", 10000, "Kardiyolog", 6, "MedicalPark")
@@ -36,23 +33,21 @@ try:
         "Hastane": [None, None, doktor1.get_hastane(), doktor2.get_hastane(), doktor3.get_hastane(), hemsire1.get_hastane(), hemsire2.get_hastane(), hemsire3.get_hastane(), None, None, None],
         "Sertifika": [None, None, None, None, None, hemsire1.get_sertifika(), hemsire2.get_sertifika(), hemsire3.get_sertifika(), None, None, None],
         "Hasta No": [None, None, None, None, None, None, None, None, hasta1.get_hasta_no(), hasta2.get_hasta_no(), hasta3.get_hasta_no()],
-        "Doğum Tarihi": [None, None, None, None, None, None, None, None, pd.to_datetime(hasta1.get_dogum_tarihi()), pd.to_datetime(hasta2.get_dogum_tarihi()), pd.to_datetime(hasta3.get_dogum_tarihi())],
+        "Doğum Tarihi": [None, None, None, None, None, None, None, None, hasta1.get_dogum_tarihi(), hasta2.get_dogum_tarihi(), hasta3.get_dogum_tarihi()],
         "Hastalık": [None, None, None, None, None, None, None, None, hasta1.get_hastalik(), hasta2.get_hastalik(), hasta3.get_hastalik()],
         "Tedavi": [None, None, None, None, None, None, None, None, hasta1.get_tedavi(), hasta2.get_tedavi(), hasta3.get_tedavi()]
     }
     df = pd.DataFrame(ph_data)
-    print("Orijinal DataFrame:\n", df)
-
+    
     df.fillna(0, inplace=True)  # Boş değişken değerleri için 0 atanır
-    print("\nBoş değerlerin 0 ile doldurulmuş hali: \n", df)
+    print("\nHastane DataFrame: \n", df)
 
-    dr_uzmanlik = df[df["Uzmanlık"] != 0].groupby("Uzmanlık").size()
-
+    dr_uzmanlik = df[df["Uzmanlık"].notna()].groupby("Uzmanlık").size()
     # doktorları uzmanlık alanlarına göre gruplama
     print("\nUzmanlık Alanlarına Göre Doktor Sayıları:\n", dr_uzmanlik)
 
-    deneyimli_dr = df[(df["Deneyim Yılı"] != 0) & (df["Deneyim Yılı"] > 5)].shape[0]
-    # doktorlardan 5 yıldan fazla deneyimli olanları verir
+    deneyimli_dr = df[(df["Deneyim Yılı"] > 5)].shape[0]
+    # doktorlardan 5 yıldan fazla deneyimli olanları verir   
     print(f"\n5 Yıldan Fazla Deneyime Sahip Doktor Sayısı: {deneyimli_dr}")
 
     hasta_siralanmis = df[df["Hasta No"] != 0].sort_values(by="Ad")
@@ -62,8 +57,8 @@ try:
     maasi_7000_ustunde = df[df["Maaş"] > 7000]
     print("\nMaaşı 7000'in Üzerindeki Personeller:\n", maasi_7000_ustunde)
 
-    dt_1990 = df[df["Doğum Tarihi"].dt.year >= 1990]
-    print("\n1990 Sonrası Doğan Hastalar:\n", dt_1990)
+    dt_1990_dansonra = df[pd.to_datetime(df["Doğum Tarihi"]).dt.year >= 1990]
+    print("\n1990 Sonrası Doğan Hastalar:\n", dt_1990_dansonra)
 
     new_dataf = df[["Ad", "Soyad", "Departman", "Maaş", "Uzmanlık", "Deneyim Yılı", "Sertifika", "Hastalık", "Tedavi", "Doğum Tarihi"]]
     print("\nYeni DataFrame:\n", new_dataf)
